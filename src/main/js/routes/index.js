@@ -19,7 +19,8 @@ module.exports = function (server, mw) {
    *
    **/
   let staff = require('./staff');
-  server.post("/staff/authenticate", staff.authenticate);
+  server.post("/staff/authorize", staff.authorize);
+
   // server.get("/user/friends", mw.auth, mw.assertPerm("play"), user.getFriends);
   // server.post("/user/friend/:nickname", mw.auth, mw.assertPerm("play"), user.addFriend);
 

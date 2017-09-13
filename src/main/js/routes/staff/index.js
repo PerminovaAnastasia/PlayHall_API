@@ -17,7 +17,7 @@ const cert = fs.readFileSync('./src/main/resources/secrets/signing.key');
  */
 module.exports = {
 
-  authenticate: function (req, res, next) {
+  authorize: function (req, res, next) {
 
     let typeSocial = req.body.typeSocial;
     let token = req.body.token;
@@ -38,7 +38,7 @@ module.exports = {
 
         res.send({
           user: user,
-          jwt: jwt.sign(req.userAdapter.userData, cert, {algorithm: 'RS256'}),
+          jwt: jwt.sign({user: user}, cert, {algorithm: 'RS256'}),
         });
       })
       .catch((err) => {

@@ -8,30 +8,27 @@
  * information important to Firstmac processing
  */
 
-const Q       = require('q'),
-      _       = require('lodash'),
-      jwt     = require('restify-jwt'),
-      restifyErrors = require('restify-errors');
+const Q       = require('q');
+const _ = require('lodash');
+const jwt = require('restify-jwt');
+const restifyErrors = require('restify-errors');
 
-let anonymousUserData = {
-  "family_name": "Anonymous",
-  "given_name": "Anonymous",
-  "name": null
-};
 
 let UserAdapter = function (userData) {
   let self = this;
 
-  self.userData = userData || anonymousUserData;
+  self.userData = userData || null;
 
-  self.nickname = () => self.userData !== null && self.userData.nickname;
+  self.id = () => self.userData !== null && self.userData.id;
+
+  self.appId = () => self.userData !== null && self.userData.appId;
 
   /**
-   * Determines if the user is anonymous
+   * Determines if the user is authenticated
    * @func isAnonymous
    * @returns Boolean
    */
-  self.isAuthenticated = () => self.userData !== null && self.userData !== anonymousUserData;
+  self.isAuthenticated = () => self.userData !== null ;
 
   /**
    * Retrieves a list of assertable permissions for the user
@@ -109,7 +106,6 @@ module.exports = {
 
   mw: {
     auth:       [ jwt({ secret: signingCertificate }), _setupAdapter ],
-    anon:       [ _setupAdapter ],
 
     /**
      * Asserts application defined permissions against user assinged ones
