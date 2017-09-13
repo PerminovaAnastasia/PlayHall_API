@@ -19,100 +19,78 @@ module.exports = {
 
   authenticate: function (req, res, next) {
 
-    let body = req.body;
-    let userAppInfo = {
-      lang: body.lang,
-      codeCountry: body.codeCountry,
-      androidId: body.androidId,
-      iosId: body.iosId
-    };
+    let typeSocial = req.body.typeSocial;
+    let token = req.body.token;
 
-    if (!isAllParamsExists(userAppInfo)) {
-      res.send(401, "There isn't any needless params from requests");
+    if (!typeSocial) {
+      res.send(401, "There isn't needless parameter: 'typeSocial' in request");
       return next();
     }
 
-    let socialNetwork = factory.socialNetwork(body.typeSocial);
+    let socialNetwork = factory.socialNetwork(typeSocial);
     if (!socialNetwork) {
-      res.send(404, "Invalid query");
+      res.send(402, `We can't authorize such social network '${typeSocial}'`);
       return next();
     }
 
-    return socialNetwork.authenticate(body.token)
+    return socialNetwork.authenticate(token)
       .then(user => {
-        user.appInfo = userAppInfo;
-        return Q.all([createOrUpdateUser(user), socialNetwork.getFriends(user.auth)]);
-      })
-      .then(userAndFriends => {
-        let user = userAndFriends[0];
-        user.friends[userAndFriends[1].type] = userAndFriends[1].data;
-        req.userAdapter.userData.user = changeForAdapter(user, userAppInfo);
-        return daoUser.save(user)
-          .then(() => {
-            res.send({
-              nickname: user.nickname,
-              isChangeNickname: user.isChangeNickname,
-              jwt: jwt.sign(req.userAdapter.userData, cert, {algorithm: 'RS256'}),
-            });
-          });
+
+        res.send({
+          user: user,
+          jwt: jwt.sign(req.userAdapter.userData, cert, {algorithm: 'RS256'}),
+        });
       })
       .catch((err) => {
         log.error(err);
-        if (err.message === 'Profanity not allowed') {
-          res.send(400, err);
-        } else {
-          res.send(400, "Invalid OAuth access token");
-        }
-
-        return next();
+        res.send(400, err);
       })
-      .done();
+      .done(next);
   },
 
 
-    // getFriends: (req, res, next) => {
-    //
-    //   loggerAws.info("--------------------Memory(USER, BEGIN GET /user/friends)----------------");
-    //   loggerAws.info(convertTOMB(process.memoryUsage()));
-    //
-    //     let adapterUser = req.userAdapter.userData.user;
-    //     let type = req.query.type;
-    //
-    //     return daoUser.get({nickname: adapterUser.nickname})
-    //         .then(user => {
-    //
-    //             if (!user.nickname) {
-    //                 res.send(404, `User with ${adapterUser.nickname} not found.`);
-    //                 return;
-    //             }
-    //
-    //             if (!user.friends[type]) {
-    //                 res.send(400, "Invalid type of friend");
-    //                 return;
-    //             }
-    //
-    //            return self.refreshFriends(user, type, adapterUser.auth)
-    //             .then(userFriends => {
-    //
-    //               user.friends[type] = userFriends;
-    //               daoUser.save(user);
-    //
-    //               res.send(200, userFriends);
-    //               loggerAws.info(convertTOMB(process.memoryUsage()));
-    //               loggerAws.info("--------------------Memory(USER, END GET /user/friends), 200----------------");
-    //
-    //             });
-    //         })
-    //       .catch(err => {
-    //         log.error(err);
-    //         res.send(401, err);
-    //
-    //         loggerAws.info(convertTOMB(process.memoryUsage()));
-    //         loggerAws.info("--------------------Memory(USER, END GET /user/friends, 401)----------------");
-    //       })
-    //         .done(next);
-    // },
-
+  // getFriends: (req, res, next) => {
+  //
+  //   loggerAws.info("--------------------Memory(USER, BEGIN GET /user/friends)----------------");
+  //   loggerAws.info(convertTOMB(process.memoryUsage()));
+  //
+  //     let adapterUser = req.userAdapter.userData.user;
+  //     let type = req.query.type;
+  //
+  //     return daoUser.get({nickname: adapterUser.nickname})
+  //         .then(user => {
+  //
+  //             if (!user.nickname) {
+  //                 res.send(404, `User with ${adapterUser.nickname} not found.`);
+  //                 return;
+  //             }
+  //
+  //             if (!user.friends[type]) {
+  //                 res.send(400, "Invalid type of friend");
+  //                 return;
+  //             }
+  //
+  //            return self.refreshFriends(user, type, adapterUser.auth)
+  //             .then(userFriends => {
+  //
+  //               user.friends[type] = userFriends;
+  //               daoUser.save(user);
+  //
+  //               res.send(200, userFriends);
+  //               loggerAws.info(convertTOMB(process.memoryUsage()));
+  //               loggerAws.info("--------------------Memory(USER, END GET /user/friends), 200----------------");
+  //
+  //             });
+  //         })
+  //       .catch(err => {
+  //         log.error(err);
+  //         res.send(401, err);
+  //
+  //         loggerAws.info(convertTOMB(process.memoryUsage()));
+  //         loggerAws.info("--------------------Memory(USER, END GET /user/friends, 401)----------------");
+  //       })
+  //         .done(next);
+  // },
 
 
   // deleteFriend: function (req, res, next) {

@@ -14,8 +14,8 @@
 	},
 
 	"googleAuth" : {
-		"clientID": "",
-		"clientSecret": "",
+		"clientID": "470763770961-auq60amalbsoq8f4mq23vrsed74lnjml.apps.googleusercontent.com",
+		"clientSecret": "d8NnaUCoapy1Jo8UvBtrHdq8",
 		"callbackURL": ""
 	},
 

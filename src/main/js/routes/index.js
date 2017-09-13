@@ -18,8 +18,8 @@ module.exports = function (server, mw) {
    * User endpoints
    *
    **/
-  let user = require('./user');
-  server.post("/user/authenticate", user.authenticate);
+  let staff = require('./staff');
+  server.post("/staff/authenticate", staff.authenticate);
   // server.get("/user/friends", mw.auth, mw.assertPerm("play"), user.getFriends);
   // server.post("/user/friend/:nickname", mw.auth, mw.assertPerm("play"), user.addFriend);
 
