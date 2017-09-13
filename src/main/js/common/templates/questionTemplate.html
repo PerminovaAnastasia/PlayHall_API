@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href='http://fonts.googleapis.com/css?family=Roboto:bold,light rel="stylesheet" type="text/css"'>
+    <title><%=projectName%></title>
+    <style type="text/css">
+        body{
+            background-image:url(<%=baseObject.background%>);
+            background-size: cover;
+        }
+        div{
+            text-align: center;
+        }
+        img{
+            max-width: 100%;
+            height: auto;
+        }
+        video{
+            width: 100% !important;
+            height: auto !important;
+            max-width:600px;
+        }
+        .answer{
+            position: relative;
+            display: inline-block;
+            max-width: 296px;
+            width:100%;
+            height:30px;
+            text-align:center;
+            border:2px solid #071136;
+            box-shadow:inset 0px 0px 1px 1px #3D538D;
+            padding: 10px 0;
+            border-radius: 6px;
+            background-color:#2A3A66;
+            font-family: 'Roboto', sans-serif;
+            font-size: 24px;
+            font-weight: 900;
+            color:#FFFFFF;
+            margin:auto;
+        }
+        .kobro_logo{
+            margin:30px auto;
+            display:block
+        }
+        .kobro_ready{
+            margin:30px auto 0;
+            display:block
+        }
+        .view_question{
+            margin:auto;
+            display:block;
+            width:600px;
+            height:auto;
+        }
+        .question{
+            max-width: 600px;
+            width:100%;
+            height: auto;
+            text-align: center;
+            background-color:#ECF9FF;
+            font-family: 'Roboto', sans-serif; font-size: 24px;
+            font-weight: 900;
+            margin:0 auto 5px;
+            padding: 15px 0;
+            color:#000000;
+        }
+        .small_font{
+            color:#FFFFFF;
+            font-family: 'Roboto', sans-serif;
+            font-size: 16px;
+            font-weight: 100;
+            margin:10px auto;
+            text-align: center;
+        }
+        .hrefApp{
+            display: inline-block;
+            width:120px;
+            height:25px; margin:auto;
+            border:0;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <img alt="Kobro" class="kobro_logo" src=<%=baseObject.logo%> >
+
+    <%  question.answerOptions = _.shuffle(question.answerOptions) %>
+    <% if (question.type === "image") {%>
+    <img src="<%=question.urlQuestion%>" alt="Question" class="view_question">
+    <% } else if (question.type === "video") {%>
+    <video controls class="view_question "><source src="<%=question.urlQuestion%>" class="view_question"> type="video/mp4"></video>
+    <% } else {%>
+    <img src="<%=baseObject.templateImage%>" alt="Question" class="view_question">
+    <% } %>
+
+    <div class="question"><%=question.text%></div>
+    <div>
+        <div class="answer"><%=question.answerOptions[0]%></div>
+        <div class="answer"><%=question.answerOptions[1]%></div>
+    </div>
+    <div>
+        <div class="answer"><%=question.answerOptions[2]%></div>
+        <div class="answer"><%=question.answerOptions[3]%></div>
+    </div>
+
+    <img src="<%=baseObject.readyToStart%>" alt="READY_TO_START" class="kobro_ready">
+    <p class="small_font"><%=textPhrase%></p>
+    <div>
+        <a href="default.asp" class="hrefApp"><img src="<%=baseObject.googlePlay%>" alt="GooglePlay"></a>
+        <a href="default.asp" class="hrefApp"><img src="<%=baseObject.appStore%>" alt="AppStore"></a>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,29 @@
+{
+
+	"env": "development",
+	"logger": {
+
+	},
+	"port": 3006,
+
+	"dynamoDb": {
+		"pageSize": 20,
+		"accessKeyId": "AKIAIEDAGSXQFPFB44YA",
+		"secretAccessKey": "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",
+		"region": "eu-west-1"
+	},
+
+	"googleAuth" : {
+		"clientID": "",
+		"clientSecret": "",
+		"callbackURL": ""
+	},
+
+	"facebookAuth" : {
+		"clientID"      : "",
+		"clientSecret"  : "",
+		"callbackURL"   : ""
+	},
+
+	"bucketLogo": "name of bucket - TODO"
+}
