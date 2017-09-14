@@ -15,11 +15,12 @@ module.exports = function (server, mw) {
 
 
   /**
-   * User endpoints
+   * Accounts endpoints
    *
    **/
-  let staff = require('./staff');
-  server.post("/staff/authorize", staff.authorize);
+  let accounts = require('./accounts');
+  server.post("/staff/authorize", accounts.authorize);
+  server.post("/accounts/currentUser",  mw.auth, accounts.getCurrentUser);
 
   // server.get("/user/friends", mw.auth, mw.assertPerm("play"), user.getFriends);
   // server.post("/user/friend/:nickname", mw.auth, mw.assertPerm("play"), user.addFriend);
