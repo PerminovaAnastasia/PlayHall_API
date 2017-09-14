@@ -8,14 +8,14 @@
 
 	"dynamoDb": {
 		"pageSize": 20,
-		"accessKeyId": "AKIAIEDAGSXQFPFB44YA",
-		"secretAccessKey": "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",
+		"accessKeyId": "",
+		"secretAccessKey": "",
 		"region": "eu-west-1"
 	},
 
 	"googleAuth" : {
-		"clientID": "470763770961-auq60amalbsoq8f4mq23vrsed74lnjml.apps.googleusercontent.com",
-		"clientSecret": "d8NnaUCoapy1Jo8UvBtrHdq8",
+		"clientID": "",
+		"clientSecret": "",
 		"callbackURL": ""
 	},
 
